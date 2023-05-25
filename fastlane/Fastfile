@@ -5,7 +5,7 @@ platform :ios do
   lane :export_ipa do
     decode_file
 
-    keychain_password = SecureRandom.uuid
+    keychain_password = ENV['CUSTOM_KEYCHAIN_PASSWORD'] || SecureRandom.uuid
     keychain_name = nil
     if !ENV['CUSTOM_KEYCHAIN_NAME'].empty?
       keychain_name = ENV['CUSTOM_KEYCHAIN_NAME']
@@ -16,7 +16,7 @@ platform :ios do
     create_keychain(
       name: keychain_name,
       password: keychain_password,
-      default_keychain: true,
+      default_keychain: false,
       unlock: true,
       timeout: 3600
     )
