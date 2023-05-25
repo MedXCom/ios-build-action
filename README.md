@@ -43,7 +43,7 @@ You can add a single p12 key+cert file with `p12-base64 (p12-path)`, or if you h
 **Required**: Base64 encoded mobileprovision file. If you want to specify multiple files, you need to input in multiple lines and then use [`export-options`](#export-options) to specify the provisioning profile to use for each executable in your app.
 
 ```yaml
-- uses: yukiarrr/ios-build-action@v1.5.0
+- uses: yukiarrr/ios-build-action@v1.11.0
   with:
     mobileprovision-base64: |
       ${{ secrets.MY_MOBILEPROVISION_BASE64 }}
@@ -59,7 +59,7 @@ Also note, when creating base64 encoded inputs, make sure they don't contain new
 **Required**: mobileprovision path. If you want to specify multiple files, you need to input in multiple lines and then use [`export-options`](#export-options) to specify the provisioning profile to use for each executable in your app.
 
 ```yaml
-- uses: yukiarrr/ios-build-action@v1.5.0
+- uses: yukiarrr/ios-build-action@v1.11.0
   with:
     mobileprovision-path: |
       ios-build-1.mobileprovision
@@ -107,7 +107,7 @@ Output path of ipa. Default `"output.ipa"`.
 Targets to be updated with mobileprovision, code signing identity, etc. Split on new lines. Default `""`. (default to all targets)
 
 ```yaml
-- uses: yukiarrr/ios-build-action@v1.5.0
+- uses: yukiarrr/ios-build-action@v1.11.0
   with:
     update-targets: |
       MyApp
@@ -128,6 +128,10 @@ Path to an export options plist. Default `""`.
 
 Path for Swift Package Manager dependencies. Default `""`.
 
+### `entitlements-file-path`
+
+Path to your entitlements file. Default `""`.
+
 ### `build-sdk`
 
 The SDK that should be used for building the application. Default `""`. For example, `"iOS 11.1"`.
@@ -135,6 +139,45 @@ The SDK that should be used for building the application. Default `""`. For exam
 ### `build-destination`
 
 Use a custom destination for building the app. Default `""`. For example, `"generic/platform=iOS"`.
+
+### `build-path`
+
+Use a custom build path for building the app. Default `"/Users/{user}/Library/Developer/Xcode/Archives/{date}"`. For example, `"./archive"`.
+
+### `increment-version-number`
+
+Increment the version number of your project. Supports `"patch"`, `"minor"`, `"major"` or a specific version number. Default `""`.
+
+### `increment-build-number`
+
+Increment the build number before building the application. Default `""`.
+
+ - `true` - automatically increment the project build number by one
+ - `testflight` - increment the latest TestFlight build number by one. If this is specified you must also provide `bundle-identifier`, `app-store-connect-api-key-id`, `app-store-connect-api-key-issuer-id` and `app-store-connect-api-key-base64`
+ - a specific build number e.g. `75`
+
+
+### `bundle-identifier`
+
+Application bundle identifier. Default `""`.
+
+### `app-store-connect-api-key-id`
+
+App Store Connect API Key ID. Default `""`.
+
+
+### `app-store-connect-api-key-issuer-id`
+
+App Store Connect API Key Issuer ID. Default `""`.
+
+
+### `app-store-connect-api-key-base64`
+
+Base64 encoded App Store Connect API Key. Default `""`.
+
+### `custom-keychain-name`
+
+Custom keychain name. Default `ios-build.keychain`
 
 ## Contributions Welcome!
 
@@ -147,7 +190,7 @@ Welcome your contributions!
 ### single p12
 
 ```yaml
-- uses: yukiarrr/ios-build-action@v1.5.0
+- uses: yukiarrr/ios-build-action@v1.11.0
   with:
     project-path: Unity-iPhone.xcodeproj
     p12-base64: ${{ secrets.P12_BASE64 }}
@@ -160,8 +203,23 @@ Welcome your contributions!
 ### key and cert
 
 ```yaml
-- uses: yukiarrr/ios-build-action@v1.5.0
+- uses: yukiarrr/ios-build-action@v1.11.0
   with:
+    project-path: Unity-iPhone.xcodeproj
+    p12-key-base64: ${{ secrets.P12_KEY_BASE64 }}
+    p12-cer-base64: ${{ secrets.P12_CER_BASE64 }}
+    mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+    code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
+    team-id: ${{ secrets.TEAM_ID }}
+    workspace-path: Unity-iPhone.xcworkspace # optional
+```
+
+### custom keychain name
+
+```yaml
+- uses: yukiarrr/ios-build-action@v1.11.0
+  with:
+    custom-keychain-name: my-ios-build.keychin # or {commit-hash}-ios-build.keychain
     project-path: Unity-iPhone.xcodeproj
     p12-key-base64: ${{ secrets.P12_KEY_BASE64 }}
     p12-cer-base64: ${{ secrets.P12_CER_BASE64 }}

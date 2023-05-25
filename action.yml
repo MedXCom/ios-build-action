@@ -1,5 +1,5 @@
 name: "iOS Build Action"
-description: "Build iOS project (.xcodeproj, .xcworkspace), and export ipa"
+description: "Build iOS project (.xcodeproj, .xcworkspace), and export ipa with custom entitlements"
 inputs:
   p12-key-base64:
     description: "Base64 encoded p12 key"
@@ -82,6 +82,42 @@ inputs:
     description: "Path for Swift Package Manager dependencies"
     required: false
     default: ""
+  entitlements-file-path:
+    description: "Path to your entitlements file"
+    required: false
+    default: ""
+  increment-build-number: 
+    description: "Increment the build number before building the application"
+    required: false
+    default: ""
+  increment-version-number:
+    description: 'Increment the version number of your project. Supports patch, minor, major or a specific version number.'
+    required: false
+    default: ""
+  bundle-identifier:
+    description: 'Bundle identifier of the application.'
+    required: false
+    default: ""
+  app-store-connect-api-key-id:
+    description: 'App Store Connect API Key ID'
+    required: false
+    default: ""
+  app-store-connect-api-key-issuer-id:
+    description: 'App Store Connect API Key Issuer ID'
+    required: false
+    default: ""
+  app-store-connect-api-key-base64:
+    description: 'Base64 encoded App Store Connect API Key'
+    required: false
+    default: ""
+  build-path:
+    description: 'Build path'
+    required: false
+    default: ""
+  custom-keychain-name:
+    description: 'Custom Keychain Name'
+    required: false
+    default: "ios-build.keychain"
 runs:
   using: "node16"
   main: "dist/index.js"
